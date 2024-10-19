@@ -1,21 +1,22 @@
-import 'package:car_workshop_app/authentication/registration_screen.dart';
+import 'package:car_workshop_app/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
-  final GlobalKey<FormState> loginFormKey = GlobalKey();
+  final GlobalKey<FormState> registrationFormKey = GlobalKey();
 
   bool obscurePassword = true;
 
@@ -24,15 +25,17 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-
-        backgroundColor: Colors.redAccent,
-        title: const Text(
-          "Login",
-          style: TextStyle(color: Colors.white),
+        iconTheme: IconThemeData(
+            color: Colors.white
         ),
+        backgroundColor: Colors.redAccent,
+        title: Text('Registration',style: TextStyle(
+          color: Colors.white
+        ),),
       ),
+
       body: Form(
-        key: loginFormKey,
+        key: registrationFormKey,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30.0),
           child: Column(
@@ -44,11 +47,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.fitWidth),
               const SizedBox(height: 10),
               Text(
-                "Login to your account",
+                "User Registration",
                 style:
-                    GoogleFonts.acme(fontWeight: FontWeight.bold, fontSize: 24),
+                GoogleFonts.acme(fontWeight: FontWeight.bold, fontSize: 24),
               ),
               const SizedBox(height: 20),
+
+              TextFormField(
+                controller: nameController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: "Your name",
+                  hintText: "Your name",
+                  prefixIcon: const Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (String? value) {
+                  if (value == null ) {
+                    return "Please enter your name";
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -124,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // validateForm();
 
-                        if (loginFormKey.currentState!.validate()) {
-                          loginFormKey.currentState!.save();
+                        if (registrationFormKey.currentState!.validate()) {
+                          registrationFormKey.currentState!.save();
 
                           // call login function
                         }
@@ -139,23 +166,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account?"),
+                      const Text("Already have an account?"),
                       TextButton(
                         onPressed: () {
-                          loginFormKey.currentState?.reset();
-
-
-                          Get.to(()=> const RegistrationScreen());
-
+                          registrationFormKey.currentState?.reset();
+                          Get.to(LoginScreen());
                         },
                         child: const Text(
-                          "Register now",
+                          "Login now",
                           style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold),
                         ),
                       ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import 'authentication/login_screen.dart';
 
@@ -16,8 +18,9 @@ class _SplashScreenState extends State<SplashScreen> {
   startTimer() async {
     Timer(const Duration(seconds: 1), () {
       //for one time page view, no back button available in next page when use it
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
+
+      Get.off(() => const LoginScreen());
+
     });
   }
 
