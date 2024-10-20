@@ -1,8 +1,18 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:car_workshop_app/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import '../api/api_connection.dart';
+import '../widgets/progress_dialog.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
@@ -11,26 +21,104 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var userRoleController = TextEditingController();
 
   final GlobalKey<FormState> registrationFormKey = GlobalKey();
 
   bool obscurePassword = true;
+
+  // This function opens a dialog for selecting the user type
+  Future<void> _selectUserType() async {
+    String? selectedType = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Select User Type'),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, 'Admin');
+              },
+              child: const Text('Admin'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, 'Mechanic');
+              },
+              child: const Text('Mechanic'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (selectedType != null) {
+      setState(() {
+        userRoleController.text = selectedType;
+      });
+    }
+  }
+
+  //function for user sign up
+  userRegistration() async {
+    bool isConnected = await InternetConnectionChecker().hasConnection;
+
+    if (isConnected) {
+      if (mounted) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext c) {
+              return const ProgressDialog();
+            });
+      }
+
+      try {
+        var res = await http.post(
+          Uri.parse(API.userSignup),
+          body: {
+            "user_name": nameController.text.trim(),
+            "user_email": emailController.text.trim(),
+            "user_password": passwordController.text.trim(),
+            "user_role": userRoleController.text.trim(),
+          },
+        );
+
+        if (res.statusCode == 200) {
+          var responseData = jsonDecode(res.body);
+          if (responseData['success'] == true) {
+            Get.offAll(() => const LoginScreen());
+            Fluttertoast.showToast(msg: "Registration successful");
+          } else {
+            Fluttertoast.showToast(msg: "Wrong email or password");
+
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          }
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+    } else {
+      Fluttertoast.showToast(msg: "No network connection");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: Colors.white
+        iconTheme: const IconThemeData(color: Colors.white
         ),
         backgroundColor: Colors.redAccent,
-        title: Text('Registration',style: TextStyle(
-          color: Colors.white
+        title: const Text(
+          'Registration',
+          style: TextStyle(color: Colors.white
         ),),
       ),
 
@@ -68,7 +156,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ),
                 validator: (String? value) {
-                  if (value == null ) {
+                  if (value == null || value.isEmpty) {
                     return "Please enter your name";
                   }
 
@@ -135,6 +223,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: userRoleController,
+                readOnly: true,
+                onTap: () {
+                  _selectUserType();
+                },
+                decoration: InputDecoration(
+                  labelText: "Select user role",
+                  hintText: "Select user role",
+                  prefixIcon: const Icon(Icons.person_add),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please select user role";
+                  }
+
+                  return null;
+                },
+              ),
               const SizedBox(height: 60),
               Column(
                 children: [
@@ -154,11 +268,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         if (registrationFormKey.currentState!.validate()) {
                           registrationFormKey.currentState!.save();
 
-                          // call login function
+                          // call signup function
+                          userRegistration();
                         }
                       },
                       child: Text(
-                        "Login",
+                        "Signup",
                         style: GoogleFonts.acme(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -166,7 +281,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -176,7 +291,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       TextButton(
                         onPressed: () {
                           registrationFormKey.currentState?.reset();
-                          Get.to(LoginScreen());
+                          Get.offAll(const LoginScreen());
                         },
                         child: const Text(
                           "Login now",

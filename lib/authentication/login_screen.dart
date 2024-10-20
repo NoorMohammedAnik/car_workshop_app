@@ -1,8 +1,21 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:car_workshop_app/authentication/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import '../admin/admin_homepage.dart';
+import '../api/api_connection.dart';
+import '../mechanic/mechanic_homepage.dart';
+import '../model/user.dart';
+import '../widgets/progress_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,9 +28,74 @@ class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
+  GetStorage box = GetStorage();
+
+  String get userEmail => box.read("email") ?? "";
+
+  String get userPassword => box.read("password") ?? "";
+
   final GlobalKey<FormState> loginFormKey = GlobalKey();
 
   bool obscurePassword = true;
+
+  //function for user login
+  userLogin() async {
+    bool isConnected = await InternetConnectionChecker().hasConnection;
+
+    if (isConnected) {
+      if (mounted) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext c) {
+              return const ProgressDialog();
+            });
+      }
+
+      try {
+        var res = await http.post(
+          Uri.parse(API.userLogin),
+          body: {
+            "user_email": emailController.text.trim(),
+            "user_password": passwordController.text.trim(),
+          },
+        );
+
+        if (res.statusCode == 200) {
+          var responseData = jsonDecode(res.body);
+          if (responseData['success'] == true) {
+            MyUser userInfo = MyUser.fromJson(responseData["userData"]);
+
+            String userRole = userInfo.userRole.toString();
+
+            //user info saved in local storage
+            box.write("userId", userInfo.userId.toString());
+            box.write("userName", userInfo.userName.toString());
+            box.write("email", emailController.text.trim());
+            box.write("password", passwordController.text);
+            box.write("is_logged_in", true);
+
+            if (userRole == 'Admin') {
+
+              Get.off(() => const AdminHomepage());
+            } else {
+              Get.off(() => const MechanicHomepage());
+            }
+          } else {
+            Fluttertoast.showToast(msg: "Wrong email or password");
+
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          }
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+    } else {
+      Fluttertoast.showToast(msg: "No network connection");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           loginFormKey.currentState!.save();
 
                           // call login function
+                          userLogin();
                         }
                       },
                       child: Text(
