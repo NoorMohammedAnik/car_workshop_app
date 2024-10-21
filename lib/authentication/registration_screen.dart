@@ -234,6 +234,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   labelText: "Select user role",
                   hintText: "Select user role",
                   prefixIcon: const Icon(Icons.person_add),
+                  suffixIcon: Icon(Icons.arrow_drop_down),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

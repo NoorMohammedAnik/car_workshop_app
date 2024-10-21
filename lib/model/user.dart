@@ -1,3 +1,4 @@
+//model class for users
 class MyUser {
   String? userId;
   String? userName;

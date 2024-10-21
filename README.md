@@ -1,6 +1,7 @@
 # car_workshop_app
 
-A new Flutter project.
+A cross-platform mobile application for a car workshop where users can create bookings for car servicing, and view bookings in a calendar. Focus on the UI/UX
+and clean, modular, well-documented code.
 
 ## Getting Started
 
