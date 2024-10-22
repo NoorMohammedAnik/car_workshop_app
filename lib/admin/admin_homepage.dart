@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:car_workshop_app/admin/add_booking.dart';
+import 'package:car_workshop_app/admin/booking_details.dart';
 import 'package:car_workshop_app/model/booking.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -176,15 +177,14 @@ class _AdminHomepageState extends State<AdminHomepage> {
                             scrollDirection: Axis.vertical,
                             padding: const EdgeInsets.all(10),
                             itemBuilder: (context, index) {
-                              Booking eachCustomerRecord =
+                              Booking bookingRecords =
                               dataSnapShot.data![index];
 
                               return GestureDetector(
                                 onTap: () {
-                                  // Fluttertoast.showToast(
-                                  //     msg: eachCustomerRecord.customerName!);
 
-                                  // Get.to(EditCustomer(eachCustomerRecord));
+
+                                  Get.to(BookingDetails(bookingRecords));
 
                                 },
                                 child: Card(
@@ -227,7 +227,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
                                             children: [
                                               //name
                                               Text(
-                                                eachCustomerRecord
+                                                bookingRecords
                                                     .customerName!,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
@@ -242,7 +242,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
 
                                               //price
                                               Text(
-                                                eachCustomerRecord
+                                                bookingRecords
                                                     .customerEmail!,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
@@ -252,7 +252,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
                                               ),
 
                                               Text(
-                                                eachCustomerRecord
+                                                bookingRecords
                                                     .customerPhone!,
                                                 style: const TextStyle(
                                                   color: Colors.black,
@@ -260,8 +260,8 @@ class _AdminHomepageState extends State<AdminHomepage> {
                                                 ),
                                               ),
                                               Text(
-                                                eachCustomerRecord
-                                                    .customerEmail!,
+                                                bookingRecords
+                                                    .carRegistrationPlate!,
                                                 style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 16,

@@ -19,4 +19,7 @@ class API {
   //save booking api url
   static const saveServiceBooking="$mainUrl/save_booking.php";
 
+  //get assigned service api url
+  static const assignedServiceBooking="$mainUrl/get_assigned_service.php";
+
 }

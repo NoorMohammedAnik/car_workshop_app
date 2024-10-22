@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:car_workshop_app/admin/admin_homepage.dart';
+import 'package:car_workshop_app/model/booking.dart';
 import 'package:car_workshop_app/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,14 +17,15 @@ import 'package:http/http.dart' as http;
 import '../api/api_connection.dart';
 import '../widgets/progress_dialog.dart';
 
-class AddBooking extends StatefulWidget {
-  const AddBooking({super.key});
+class BookingDetails extends StatefulWidget {
+  final Booking bookingRecords;
+  const BookingDetails(this.bookingRecords,{super.key});
 
   @override
-  State<AddBooking> createState() => _AddBookingState();
+  State<BookingDetails> createState() => _BookingDetailsState();
 }
 
-class _AddBookingState extends State<AddBooking> {
+class _BookingDetailsState extends State<BookingDetails> {
 
   List<MyUser> userList = [];
   String selectedMechanicId = "";
@@ -151,6 +153,22 @@ class _AddBookingState extends State<AddBooking> {
 
   @override
   Widget build(BuildContext context) {
+
+    makeController.text = widget.bookingRecords.carMake!;
+    modelController.text = widget.bookingRecords.carModel!;
+    yearController.text = widget.bookingRecords.carYear!;
+    registrationPlateController.text = widget.bookingRecords.carRegistrationPlate!;
+
+
+    customerNameController.text = widget.bookingRecords.customerName!;
+    customerPhoneController.text = widget.bookingRecords.customerPhone!;
+    customerEmailController.text = widget.bookingRecords.customerEmail!;
+
+    bookingTitleController.text = widget.bookingRecords.carMake!;
+    startDateController.text = widget.bookingRecords.startTime.toString();
+    endDateController.text = widget.bookingRecords.endTime.toString();
+    mechanicController.text = widget.bookingRecords.mechanicId!;
+
     return   Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -158,7 +176,7 @@ class _AddBookingState extends State<AddBooking> {
         ),
         title: Text(
 
-          "Add Booking",
+          "Booking Details",
           style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -427,7 +445,7 @@ class _AddBookingState extends State<AddBooking> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-
+                // onEditingComplete: () => _focusNodePassword.requestFocus(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Enter start date";

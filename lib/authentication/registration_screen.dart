@@ -92,7 +92,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           if (responseData['success'] == true) {
             Get.offAll(() => const LoginScreen());
             Fluttertoast.showToast(msg: "Registration successful");
-          } else {
+          }
+
+        else  if (responseData['success'] == "exists") {
+
+            Fluttertoast.showToast(msg: "User already exists");
+            Get.back();
+          }
+
+          else {
             Fluttertoast.showToast(msg: "Wrong email or password");
 
             if (mounted) {
@@ -234,7 +242,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   labelText: "Select user role",
                   hintText: "Select user role",
                   prefixIcon: const Icon(Icons.person_add),
-                  suffixIcon: Icon(Icons.arrow_drop_down),
+                  suffixIcon: const Icon(Icons.arrow_drop_down),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -264,7 +272,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                       onPressed: () {
-                        // validateForm();
+
 
                         if (registrationFormKey.currentState!.validate()) {
                           registrationFormKey.currentState!.save();

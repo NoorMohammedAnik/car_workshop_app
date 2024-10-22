@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:car_workshop_app/authentication/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Get.off(() => const AdminHomepage());
             } else {
-              Get.off(() => const MechanicHomepage());
+              Get.off(() =>  MechanicHomepage());
             }
           } else {
             Fluttertoast.showToast(msg: "Wrong email or password");
@@ -95,6 +94,13 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       Fluttertoast.showToast(msg: "No network connection");
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailController.text = userEmail;
   }
 
   @override

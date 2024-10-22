@@ -9,8 +9,8 @@ class Booking {
   String? carYear;
   String? carRegistrationPlate;
   String? bookingTitle;
-  String? startTime;
-  String? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
   String? mechanicId;
 
 
@@ -42,8 +42,8 @@ class Booking {
         carYear: json["car_year"],
         carRegistrationPlate: json["car_registration_plate"],
         bookingTitle: json["booking_title"],
-        startTime: json["start_time"],
-        endTime: json["end_time"],
+        startTime:  DateTime.parse(json["start_time"]),
+        endTime:  DateTime.parse(json["end_time"]),
         mechanicId: json["user_id"],
 
       );
