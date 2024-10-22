@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:car_workshop_app/admin/add_booking.dart';
 import 'package:car_workshop_app/admin/booking_details.dart';
+import 'package:car_workshop_app/authentication/login_screen.dart';
 import 'package:car_workshop_app/model/booking.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:http/http.dart' as http;
 
 import '../api/api_connection.dart';
-import '../utils/colors.dart';
 class AdminHomepage extends StatefulWidget {
   const AdminHomepage({super.key});
 
@@ -85,21 +85,49 @@ class _AdminHomepageState extends State<AdminHomepage> {
     });
   }
 
+  //logout dialog
+  void showLogoutDialog() {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.question,
+      headerAnimationLoop: false,
+      animType: AnimType.bottomSlide,
+      title: 'Logout',
+      desc: 'Want to logout from app ?'.tr,
+      buttonsTextStyle: const TextStyle(color: Colors.white),
+      showCloseIcon: true,
+      btnCancelOnPress: () {},
+      btnOkText: 'YES',
+      btnCancelText: 'NO',
+      btnOkOnPress: () {
+        Get.offAll(() => const LoginScreen());
+      },
+    ).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop:false,
       onPopInvoked: (didPop) {
-        //do your logic here
-        Get.offAll(() => const AdminHomepage());
-        // do your logic ends
-
+        //logout confirmation dialog
+        showLogoutDialog();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         //for render overflow flutter when open keyboard
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-
+            actions: [
+              IconButton(
+                tooltip: "Logout",
+                color: Colors.white,
+                onPressed: () {
+                  showLogoutDialog();
+                },
+                icon: Icon(Icons.logout),
+              ),
+            ],
             title: Text(
               "Booking List",
               style: const TextStyle(

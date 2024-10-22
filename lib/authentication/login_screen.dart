@@ -76,9 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if (userRole == 'Admin') {
 
-              Get.off(() => const AdminHomepage());
+              Get.offAll(() => const AdminHomepage());
             } else {
-              Get.off(() =>  MechanicHomepage());
+              Get.offAll(() =>  MechanicHomepage());
             }
           } else {
             Fluttertoast.showToast(msg: "Wrong email or password");

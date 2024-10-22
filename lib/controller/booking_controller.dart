@@ -1,18 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:intl/intl.dart';
 
 import '../api/api_connection.dart';
-
-import 'package:http/http.dart' as http;
-
 import '../model/booking.dart';
-import '../widgets/progress_dialog.dart';
 
 
 class BookingController extends GetxController {
@@ -26,7 +21,6 @@ class BookingController extends GetxController {
   // Fetch bookings for a specific day
   List<Booking> getBookingsForDay(DateTime day) {
 
-
     return bookings.where((booking) =>
     booking.startTime!.year == day.year &&
         booking.startTime!.month == day.month &&
@@ -34,27 +28,20 @@ class BookingController extends GetxController {
     ).toList();
   }
 
-
-  Future<List<Booking>> getBookingData(DateTime day) async {
+  //get booking data form api
+  Future<List<Booking>> getBookingData(String userId) async {
     List<Booking> customerSearchList = [];
-
-
-
-    String formatedDate= DateFormat('yyyy-MM-dd').format(day);
 
     bool isConnected = await InternetConnectionChecker().hasConnection;
 
     if(isConnected)
     {
-
-
       try {
 
         isLoading(true); // Set loading to true
 
-        var res = await http.post(Uri.parse(API.assignedServiceBooking), body: {
-          "start_time": formatedDate,
-          "user_id": "2",
+        var res = await http.post(Uri.parse(API.getAssignedServiceBooking), body: {
+          "user_id": userId,
         });
 
         if (res.statusCode == 200) {
