@@ -16,6 +16,7 @@ Here is a quick look at the app's screenshots:
  - User registration with specific user roles (e.g., admin, mechanic)
  - Admin dashboard with booking management
  - Admin can view all bookings
+ - Admin can assign tasks to mechanics
  - Mechanic dashboard with assigned task
  - Mechanic can view assigned service in calendar
   
