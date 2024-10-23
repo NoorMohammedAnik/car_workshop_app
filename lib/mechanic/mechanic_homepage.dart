@@ -102,7 +102,7 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        
+
             Obx(() {
               return  !bookingController.isLoading.value ?
               TableCalendar(
@@ -151,22 +151,22 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
                 },
               ) : Column(
                 children: [
-        
+
                   getShimmerLoading(),
                   getShimmerLoading(),
                   getShimmerLoading(),
                   getShimmerLoading(),
                 ],
               );
-        
-        
-        
-        
+
+
+
+
             }),
-        
-        
-        
-        
+
+
+
+
             const SizedBox(height: 8.0),
             Expanded(
               child: Obx(() {
@@ -180,36 +180,36 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-        
+
                         contentPadding: EdgeInsets.all(10),
                         shape: RoundedRectangleBorder(
                           side:const BorderSide(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
-        
+
                         leading: Icon(Icons.car_rental_sharp,
                         size: 50,
-        
+
                         ),
                         title: Text(booking.customerName!,style: TextStyle(
                           fontWeight: FontWeight.bold
                         ),),
                         subtitle: Text('Car Registration Plate: ${booking.carRegistrationPlate}'),
                         onTap: () {
-        
+
                           Get.to(() => JobDetails(booking));
                         },
                       ),
                     );
                   },
-        
-        
+
+
                 );
               }),
             ),
-        
-        
-        
+
+
+
           ],
         ),
       ),

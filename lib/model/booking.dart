@@ -12,6 +12,7 @@ class Booking {
   DateTime? startTime;
   DateTime? endTime;
   String? mechanicId;
+  String? mechanicName;
 
 
 
@@ -29,6 +30,7 @@ class Booking {
     this.startTime,
     this.endTime,
     this.mechanicId,
+    this.mechanicName,
 
   });
 
@@ -45,6 +47,7 @@ class Booking {
         startTime:  DateTime.parse(json["start_time"]),
         endTime:  DateTime.parse(json["end_time"]),
         mechanicId: json["user_id"],
+        mechanicName: json["user_name"],
 
       );
 }

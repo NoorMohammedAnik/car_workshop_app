@@ -118,6 +118,9 @@ class _AdminHomepageState extends State<AdminHomepage> {
         //for render overflow flutter when open keyboard
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.white
+            ),
             actions: [
               IconButton(
                 tooltip: "Logout",

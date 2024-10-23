@@ -316,7 +316,7 @@ class _AddBookingState extends State<AddBooking> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: customerPhoneController,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   labelText: "Customer Phone",
                   hintText: "Customer Phone",
@@ -340,7 +340,7 @@ class _AddBookingState extends State<AddBooking> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: customerEmailController,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Customer Email",
                   hintText: "Customer Email",
@@ -354,8 +354,8 @@ class _AddBookingState extends State<AddBooking> {
                 ),
 
                 validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter customer email";
+                  if (value == null || value.isEmpty || !value.contains('@') ||!value.contains('.')) {
+                    return "Please enter customer valid email";
                   }
 
                   return null;
