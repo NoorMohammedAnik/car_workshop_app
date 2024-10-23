@@ -38,7 +38,7 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
       headerAnimationLoop: false,
       animType: AnimType.bottomSlide,
       title: 'Logout',
-      desc: 'Want to logout from app ?'.tr,
+      desc: 'Want to logout from app ?',
       buttonsTextStyle:
       const TextStyle(color: Colors.white),
       showCloseIcon: true,
@@ -65,9 +65,6 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
 
   @override
   Widget build(BuildContext context) {
-
-    print("state=${bookingController.isLoading.value}");
-
     return PopScope(
       canPop:false,
       onPopInvoked: (didPop) {
@@ -87,7 +84,7 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
               onPressed: (){
                 showLogoutDialog();
               },
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
             ),
 
 
@@ -118,8 +115,8 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
                   ),
 
                 ),
-                calendarStyle: CalendarStyle(
-                  todayDecoration: BoxDecoration(
+                      calendarStyle: const CalendarStyle(
+                          todayDecoration: BoxDecoration(
                     color: Colors.redAccent,
                     shape: BoxShape.circle
                   ),
@@ -140,9 +137,7 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
                   setState(() {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
-
-                    print("Date: ${selectedDay?.toString()?? focusedDay.toString()}");
-                  });
+                        });
                 },
                 eventLoader: (day) {
                   return bookingController.getBookingsForDay(day);
@@ -160,8 +155,6 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
               );
 
 
-
-
             }),
 
 
@@ -172,7 +165,7 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
               child: Obx(() {
                 var bookingsForSelectedDay = bookingController.getBookingsForDay(_selectedDay ?? _focusedDay);
                 return bookingsForSelectedDay.isEmpty
-                    ? Center(child: Text('No jobs for this day'))
+                    ? const Center(child: Text('No jobs for this day'))
                     : ListView.builder(
                   itemCount: bookingsForSelectedDay.length,
                   itemBuilder: (context, index) {
@@ -180,19 +173,21 @@ class _MechanicHomepageState extends State<MechanicHomepage> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
+                              contentPadding: const EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              leading: const Icon(
+                                Icons.car_rental_sharp,
+                                size: 50,
 
-                        contentPadding: EdgeInsets.all(10),
-                        shape: RoundedRectangleBorder(
-                          side:const BorderSide(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(5),
                         ),
-
-                        leading: Icon(Icons.car_rental_sharp,
-                        size: 50,
-
-                        ),
-                        title: Text(booking.customerName!,style: TextStyle(
-                          fontWeight: FontWeight.bold
+                              title: Text(
+                                booking.customerName!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold
                         ),),
                         subtitle: Text('Car Registration Plate: ${booking.carRegistrationPlate}'),
                         onTap: () {

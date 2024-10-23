@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:car_workshop_app/authentication/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,21 +25,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //Form controllers for email and password
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
+  //Storage for user information
   GetStorage box = GetStorage();
-
   String get userEmail => box.read("email") ?? "";
 
-  String get userPassword => box.read("password") ?? "";
-
+  //form state variables
   final GlobalKey<FormState> loginFormKey = GlobalKey();
 
+  //functions for obscuring and revealing password
   bool obscurePassword = true;
 
   //function for user login
   userLogin() async {
+    //Check internet connection
     bool isConnected = await InternetConnectionChecker().hasConnection;
 
     if (isConnected) {
@@ -52,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       try {
+        //calling the API to authenticate user
         var res = await http.post(
           Uri.parse(API.userLogin),
           body: {
@@ -69,10 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             //user info saved in local storage
             box.write("userId", userInfo.userId.toString());
-            box.write("userName", userInfo.userName.toString());
             box.write("email", emailController.text.trim());
-            box.write("password", passwordController.text);
-            box.write("is_logged_in", true);
 
             if (userRole == 'Admin') {
 
@@ -98,8 +99,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
+
+    //Setting up text field controllers text
     emailController.text = userEmail;
   }
 
@@ -206,8 +209,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        // validateForm();
-
                         if (loginFormKey.currentState!.validate()) {
                           loginFormKey.currentState!.save();
 

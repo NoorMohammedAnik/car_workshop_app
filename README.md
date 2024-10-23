@@ -55,6 +55,6 @@ After completing these steps, follow these steps to run the app:
 - [omni_datetime_picker](https://pub.dev/packages/omni_datetime_picker) - A date and time picker for Flutter.
 - [table_calendar](https://pub.dev/packages/table_calendar) - A calendar widget for Flutter.
 - [awesome_dialog](https://pub.dev/packages/awesome_dialog) - A beautiful and customizable dialog widget for Flutter.
-
+- [google_fonts](https://pub.dev/packages/google_fonts) - Load and use Google Fonts with ease in Flutter.
 ## Image Resources
 - [FlatIcons](https://www.flaticon.com/) - Download Free Icons and Stickers for your projects. Resources made by and for designers

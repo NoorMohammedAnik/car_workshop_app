@@ -21,13 +21,17 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  // //Form controllers
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var userRoleController = TextEditingController();
 
+  // Form state variables
   final GlobalKey<FormState> registrationFormKey = GlobalKey();
 
+  // State variables for form validation
   bool obscurePassword = true;
 
   // This function opens a dialog for selecting the user type
@@ -36,7 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('Select User Type'),
+          title: const Text('Select User Role'),
           children: <Widget>[
             SimpleDialogOption(
               onPressed: () {
@@ -64,6 +68,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   //function for user sign up
   userRegistration() async {
+    //check internet connection
     bool isConnected = await InternetConnectionChecker().hasConnection;
 
     if (isConnected) {
@@ -77,6 +82,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       }
 
       try {
+
+        //api call to register user
         var res = await http.post(
           Uri.parse(API.userSignup),
           body: {
@@ -91,12 +98,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           var responseData = jsonDecode(res.body);
           if (responseData['success'] == true) {
             Get.offAll(() => const LoginScreen());
-            Fluttertoast.showToast(msg: "Registration successful");
+            Fluttertoast.showToast(msg: "Registration Successful");
           }
 
         else  if (responseData['success'] == "exists") {
 
-            Fluttertoast.showToast(msg: "User already exists");
+            Fluttertoast.showToast(msg: "User already exists!");
             Get.back();
           }
 

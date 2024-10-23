@@ -22,22 +22,19 @@ class AdminHomepage extends StatefulWidget {
 }
 
 class _AdminHomepageState extends State<AdminHomepage> {
+//controller for search field
+  var searchController = TextEditingController();
 
- var searchController = TextEditingController();
-
-
-  Future<List<Booking>> getCustomerData() async {
-    List<Booking> customerSearchList = [];
-
-
+  Future<List<Booking>> getAllBookings() async {
+    List<Booking> bookingList = [];
+    // Check internet connection
     bool isConnected = await InternetConnectionChecker().hasConnection;
 
     if(isConnected)
     {
       try {
-        var res = await http.post(Uri.parse(API.serviceBooking), body: {
-          "search_text": searchController.text,
-        });
+        var res = await http.get(Uri.parse(
+            "${API.serviceBooking}?search_text=${searchController.text}"));
 
         if (res.statusCode == 200) {
           var responseBodyOfSearchItems = jsonDecode(res.body);
@@ -46,7 +43,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
 
           if (responseBodyOfSearchItems['success'] == true) {
             for (var eachItemData in (responseBodyOfSearchItems['bookingData'] as List)) {
-              customerSearchList.add(Booking.fromJson(eachItemData));
+              bookingList.add(Booking.fromJson(eachItemData));
             }
           }
         } else {
@@ -59,29 +56,24 @@ class _AdminHomepageState extends State<AdminHomepage> {
     }
     else
     {
-
-      Fluttertoast.showToast(msg: "no_internet_connection".tr);
-
-
-
+      Fluttertoast.showToast(msg: "No internet connection");
     }
 
-
-
-    return customerSearchList;
+    return bookingList;
   }
 
-  //for swipe refresh
+  //function for swipe refresh
   Future refresh() async {
     setState(() {
-      getCustomerData();
+      getAllBookings();
     });
   }
-  //for search customer
+
+  //function for search booking
   onSearch(String search) {
     setState(() {
       searchController.text = search;
-      getCustomerData();
+      getAllBookings();
     });
   }
 
@@ -93,7 +85,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
       headerAnimationLoop: false,
       animType: AnimType.bottomSlide,
       title: 'Logout',
-      desc: 'Want to logout from app ?'.tr,
+      desc: 'Want to logout from app ?',
       buttonsTextStyle: const TextStyle(color: Colors.white),
       showCloseIcon: true,
       btnCancelOnPress: () {},
@@ -118,8 +110,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
         //for render overflow flutter when open keyboard
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            iconTheme: IconThemeData(
-              color: Colors.white
+            iconTheme: const IconThemeData(color: Colors.white
             ),
             actions: [
               IconButton(
@@ -128,12 +119,12 @@ class _AdminHomepageState extends State<AdminHomepage> {
                 onPressed: () {
                   showLogoutDialog();
                 },
-                icon: Icon(Icons.logout),
+                icon: const Icon(Icons.logout),
               ),
             ],
-            title: Text(
+            title: const Text(
               "Booking List",
-              style: const TextStyle(
+              style: TextStyle(
                   color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ),
             backgroundColor: Colors.redAccent,
@@ -166,7 +157,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
                   height: 5,
                 ),
                 FutureBuilder(
-                  future: getCustomerData(),
+                  future: getAllBookings(),
                   builder: (context, AsyncSnapshot<List<Booking>> dataSnapShot) {
                     if (dataSnapShot.connectionState == ConnectionState.waiting) {
                       return SingleChildScrollView(
@@ -190,8 +181,7 @@ class _AdminHomepageState extends State<AdminHomepage> {
                             width: 200,
                             height: 200,
                             fit: BoxFit.contain,),
-                            Text("No data found"),
-
+                            const Text("No data found"),
                           ],
                         ),
                       );
@@ -231,18 +221,18 @@ class _AdminHomepageState extends State<AdminHomepage> {
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(20)),
                                           child: FadeInImage(
                                             height: 100,
                                             width: 100,
                                             fit: BoxFit.contain,
-                                            placeholder: const AssetImage(
+                                            placeholder: AssetImage(
                                                 "assets/images/car.png"),
-                                            image: const AssetImage(
+                                            image: AssetImage(
                                               "assets/images/car.png",
                                             ),
 
@@ -321,9 +311,13 @@ class _AdminHomepageState extends State<AdminHomepage> {
                               width: 100,
                               height: 100,
                               fit: BoxFit.contain,),
-                            SizedBox(height: 10,),
-                            Text("No data found",style: TextStyle(
-                              fontSize: 18,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "No data found",
+                              style: TextStyle(
+                                fontSize: 18,
                               fontWeight: FontWeight.bold,
 
                             ),),
@@ -339,9 +333,9 @@ class _AdminHomepageState extends State<AdminHomepage> {
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.redAccent,
-            tooltip: 'add_customer'.tr,
+            tooltip: 'Add Booking',
             onPressed: () {
-              Get.to(const AddBooking());
+              Get.to(() => const AddBooking());
             },
             child: const Icon(Icons.add, color: Colors.white),
           )),

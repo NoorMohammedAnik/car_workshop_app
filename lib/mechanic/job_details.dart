@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '../model/booking.dart';
 
@@ -16,45 +15,40 @@ class JobDetails extends StatefulWidget {
 class _JobDetailsState extends State<JobDetails> {
 
 
-
-
   //controller declarations
   var makeController = TextEditingController();
   var modelController = TextEditingController();
   var yearController = TextEditingController();
   var timeController = TextEditingController();
   var registrationPlateController = TextEditingController();
-
-
   var customerNameController = TextEditingController();
   var customerPhoneController = TextEditingController();
   var customerEmailController = TextEditingController();
-
   var bookingTitleController = TextEditingController();
   var startDateController = TextEditingController();
   var endDateController = TextEditingController();
 
 
-
+  //form key declaration
   final GlobalKey<FormState> bookingFormKey = GlobalKey();
 
 
   @override
   Widget build(BuildContext context) {
 
+    //initializing form controllers
     makeController.text = widget.jobDetails.carMake!;
     modelController.text = widget.jobDetails.carModel!;
     yearController.text = widget.jobDetails.carYear!;
     registrationPlateController.text = widget.jobDetails.carRegistrationPlate!;
-
-
     customerNameController.text = widget.jobDetails.customerName!;
     customerPhoneController.text = widget.jobDetails.customerPhone!;
     customerEmailController.text = widget.jobDetails.customerEmail!;
-
     bookingTitleController.text = widget.jobDetails.bookingTitle!;
-    startDateController.text = widget.jobDetails.startTime.toString();
-    endDateController.text = widget.jobDetails.endTime.toString();
+    startDateController.text = DateFormat('d MMMM , y h:mm a').format(widget.jobDetails.startTime!);
+    endDateController.text = DateFormat('d MMMM , y h:mm a').format(widget.jobDetails.endTime!);
+
+
 
 
     return   Scaffold(
@@ -63,7 +57,6 @@ class _JobDetailsState extends State<JobDetails> {
             color: Colors.white
         ),
         title: const Text(
-
           "Job Details",
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),

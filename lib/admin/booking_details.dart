@@ -1,7 +1,7 @@
 import 'package:car_workshop_app/model/booking.dart';
-import 'package:car_workshop_app/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class BookingDetails extends StatefulWidget {
   final Booking bookingRecords;
@@ -19,48 +19,41 @@ class _BookingDetailsState extends State<BookingDetails> {
   var yearController = TextEditingController();
   var timeController = TextEditingController();
   var registrationPlateController = TextEditingController();
-
-
   var customerNameController = TextEditingController();
   var customerPhoneController = TextEditingController();
   var customerEmailController = TextEditingController();
-
   var bookingTitleController = TextEditingController();
   var startDateController = TextEditingController();
   var endDateController = TextEditingController();
   var mechanicController = TextEditingController();
 
-
-
+  //booking form key
   final GlobalKey<FormState> bookingFormKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-
+    //initializing form fields
     makeController.text = widget.bookingRecords.carMake!;
     modelController.text = widget.bookingRecords.carModel!;
     yearController.text = widget.bookingRecords.carYear!;
     registrationPlateController.text = widget.bookingRecords.carRegistrationPlate!;
-
-
     customerNameController.text = widget.bookingRecords.customerName!;
     customerPhoneController.text = widget.bookingRecords.customerPhone!;
     customerEmailController.text = widget.bookingRecords.customerEmail!;
-
     bookingTitleController.text = widget.bookingRecords.bookingTitle!;
-    startDateController.text = widget.bookingRecords.startTime.toString();
-    endDateController.text = widget.bookingRecords.endTime.toString();
+    startDateController.text = DateFormat('d MMMM , y h:mm a').format(widget.bookingRecords.startTime!);
+    endDateController.text = DateFormat('d MMMM , y h:mm a').format(widget.bookingRecords.endTime!);
+
+
     mechanicController.text = widget.bookingRecords.mechanicName!;
 
     return   Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white
+        iconTheme: const IconThemeData(color: Colors.white
         ),
-        title: Text(
-
+        title: const Text(
           "Booking Details",
-          style: const TextStyle(
+          style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.redAccent,
@@ -327,7 +320,6 @@ class _BookingDetailsState extends State<BookingDetails> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                // onEditingComplete: () => _focusNodePassword.requestFocus(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Enter start date";
@@ -358,7 +350,6 @@ class _BookingDetailsState extends State<BookingDetails> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                // onEditingComplete: () => _focusNodePassword.requestFocus(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Enter end date";
@@ -367,11 +358,9 @@ class _BookingDetailsState extends State<BookingDetails> {
                   return null;
                 },
               ),
-
-
-              SizedBox(height: 10,),
-
-
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 readOnly: true,
 

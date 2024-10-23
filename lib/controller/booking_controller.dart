@@ -12,8 +12,10 @@ import '../model/booking.dart';
 
 class BookingController extends GetxController {
 
-  var isLoading = true.obs; // Observable for loading state
+  // Observable for loading state
+  var isLoading = true.obs;
 
+  // Observable for bookings
   var bookings = <Booking>[].obs;
 
 
@@ -30,8 +32,9 @@ class BookingController extends GetxController {
 
   //get booking data form api
   Future<List<Booking>> getBookingData(String userId) async {
-    List<Booking> customerSearchList = [];
+    List<Booking> bookingList = [];
 
+    //check internet connection
     bool isConnected = await InternetConnectionChecker().hasConnection;
 
     if(isConnected)
@@ -40,24 +43,22 @@ class BookingController extends GetxController {
 
         isLoading(true); // Set loading to true
 
-        var res = await http.post(Uri.parse(API.getAssignedServiceBooking), body: {
-          "user_id": userId,
-        });
+        var res = await http.get(
+            Uri.parse("${API.getAssignedServiceBooking}?user_id=$userId"));
 
         if (res.statusCode == 200) {
           var responseBodyOfSearchItems = jsonDecode(res.body);
 
-          log("Response: "+responseBodyOfSearchItems.toString());
+        log("Response: $responseBodyOfSearchItems");
 
           isLoading(false);
 
           if (responseBodyOfSearchItems['success'] == true) {
             for (var eachItemData in (responseBodyOfSearchItems['bookingData'] as List)) {
-              customerSearchList.add(Booking.fromJson(eachItemData));
+        bookingList.add(Booking.fromJson(eachItemData));
 
               addBooking(Booking.fromJson(eachItemData));
             }
-
 
 
           }
@@ -67,22 +68,21 @@ class BookingController extends GetxController {
         }
       } catch (errorMsg) {
         Fluttertoast.showToast(msg: errorMsg.toString());
-        isLoading(false); // Set loading to false once done
+        // Set loading to false once done
+        isLoading(false);
       }
 
     }
     else
     {
-
-      Fluttertoast.showToast(msg: "no_internet_connection".tr);
-
+      Fluttertoast.showToast(msg: "No internet connection");
+      isLoading(false);
 
 
     }
 
 
-
-    return customerSearchList;
+    return bookingList;
   }
 
 
@@ -92,35 +92,4 @@ class BookingController extends GetxController {
     bookings.add(booking);
   }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   // Sample bookings data
-  //   addBooking(Booking(
-  //     serviceName: 'Haircut',
-  //     customerName: 'John Doe',
-  //     date: DateTime.now(),
-  //     details: 'Basic haircut service',
-  //   ));
-  //   addBooking(Booking(
-  //     serviceName: 'Haircut 2',
-  //     customerName: 'Anik',
-  //     date: DateTime.now(),
-  //     details: 'Basic haircut service',
-  //   ));
-  //
-  //   addBooking(Booking(
-  //     serviceName: 'Haircut 5',
-  //     customerName: 'Noor',
-  //     date: DateTime.now(),
-  //     details: 'Basic haircut service',
-  //   ));
-  //
-  //   addBooking(Booking(
-  //     serviceName: 'Manicure',
-  //     customerName: 'Jane Smith',
-  //     date: DateTime.now().add(Duration(days: 1)),
-  //     details: 'Deluxe manicure service',
-  //   ));
-  // }
 }

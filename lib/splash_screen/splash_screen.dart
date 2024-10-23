@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import 'authentication/login_screen.dart';
+import '../authentication/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,11 +13,10 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  //for set a timer
+  //function for set a timer
   startTimer() async {
     Timer(const Duration(seconds: 1), () {
-      //for one time page view, no back button available in next page when use it
-
+      //for one time page view, no back button available in next page
       Get.off(() => const LoginScreen());
 
     });
@@ -26,8 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    //call the timer function when the state is initialized
     startTimer();
   }
 
