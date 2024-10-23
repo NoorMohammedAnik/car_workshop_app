@@ -14,6 +14,10 @@ Here is a quick look at the app's screenshots:
 Here is a video of the app in action:
 [Google Drive](https://drive.google.com/file/d/1iGp7brUy_azaPD68F0dMsh4JLNztvhoa/view?usp=sharing) - Visit the link to watch the video.
 
+## App Download
+
+[Google Drive](https://drive.google.com/file/d/1oppRBfPMRDgnuLEAA7B78kt1GhCpyS4P/view?usp=sharing) - Visit the link to download the app.
+
 
 ## App Features
  - Splash screen
