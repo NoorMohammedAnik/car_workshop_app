@@ -9,6 +9,11 @@ Here is a quick look at the app's screenshots:
 ![screenshot](assets/images/screen2.png)
 ![screenshot](assets/images/screen3.png)
 
+## App Video
+
+Here is a video of the app in action:
+[Google Drive](https://drive.google.com/file/d/1iGp7brUy_azaPD68F0dMsh4JLNztvhoa/view?usp=sharing) - Visit the link to watch the video.
+
 
 ## App Features
  - Splash screen
