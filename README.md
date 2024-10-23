@@ -1,7 +1,6 @@
 # Car Workshop Flutter App
 
-A cross-platform mobile application for a car workshop where users can create bookings for car servicing, and view bookings in a calendar. Focus on the UI/UX
-and clean, modular, well-documented code.
+A cross-platform mobile application for a car workshop where users can create bookings for car servicing, and view bookings in a calendar.
 
 ## App Screenshots
 
@@ -12,13 +11,13 @@ Here is a quick look at the app's screenshots:
 
 
 ## App Features
- -Splash screen
- -User authentication (using Rest API)
- -User registration with specific user roles (e.g., admin, mechanic)
- -Admin dashboard with booking management
- -Admin can view all bookings
- -Mechanic dashboard with assigned task
- -Mechanic can view assigned service in calendar
+ - Splash screen
+ - User authentication (using Rest API)
+ - User registration with specific user roles (e.g., admin, mechanic)
+ - Admin dashboard with booking management
+ - Admin can view all bookings
+ - Mechanic dashboard with assigned task
+ - Mechanic can view assigned service in calendar
   
 ## How to Run the App
 
@@ -51,7 +50,7 @@ After completing these steps, follow these steps to run the app:
 - [get_storage](https://pub.dev/packages/get_storage) - A fast, extra light and synchronous key-value in memory, which backs up data to disk at each operation
 - [internet_connection_checker](https://pub.dev/packages/internet_connection_checker) - A Pure Dart Utility library that checks for an Active Internet connection by opening a socket to a list of specified addresses, each with individual port and timeout. Defaults are provided for convenience.
 - [shimmer](https://pub.dev/packages/shimmer) - A shimmering effect for Flutter.
-- [intl](https://pub.dev/packages/intl) - rovides internationalization and localization facilities, including message translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
+- [intl](https://pub.dev/packages/intl) - Provides internationalization and localization facilities, including message translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
 - [omni_datetime_picker](https://pub.dev/packages/omni_datetime_picker) - A date and time picker for Flutter.
 - [table_calendar](https://pub.dev/packages/table_calendar) - A calendar widget for Flutter.
 - [awesome_dialog](https://pub.dev/packages/awesome_dialog) - A beautiful and customizable dialog widget for Flutter.
