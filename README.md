@@ -12,7 +12,8 @@ Here is a quick look at the app's screenshots:
 ## App Video
 
 Here is a video of the app in action:
-[Google Drive](https://drive.google.com/file/d/1iGp7brUy_azaPD68F0dMsh4JLNztvhoa/view?usp=sharing) - Visit the link to watch the video.
+<iframe width="560" height="315" src="[https://www.youtube.com/embed/VIDEO_ID](https://www.youtube.com/shorts/ummhfdx7DaE)" frameborder="0" allowfullscreen></iframe>
+
 
 ## App Download
 
